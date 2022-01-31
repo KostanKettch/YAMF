@@ -12,27 +12,41 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         menuButtons()
+        imgButtons()
     }
 
     fun menuButtons() {
         button1.setOnClickListener {
-            Toast.makeText(this, "something", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.button1Toast, Toast.LENGTH_SHORT).show()
         }
         button2.setOnClickListener {
-            Toast.makeText(this, "something else", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.button2Toast, Toast.LENGTH_SHORT).show()
         }
         button3.setOnClickListener {
-            Toast.makeText(this, "something more", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.button3Toast, Toast.LENGTH_SHORT).show()
         }
         button4.setOnClickListener {
-            Toast.makeText(this, "something else more", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.button4Toast, Toast.LENGTH_SHORT).show()
         }
         button5.setOnClickListener {
-            Toast.makeText(
-                this,
-                "And Now for Something Completely Different",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this, R.string.button5Toast, Toast.LENGTH_SHORT).show()
+        }
+    }
+    fun imgButtons() {
+        image1.setOnClickListener {
+            Toast.makeText(this, R.string.imageDescription, Toast.LENGTH_SHORT).show()
+        }
+        image2.setOnClickListener {
+            Toast.makeText(this, R.string.imageDescription, Toast.LENGTH_SHORT).show()
+        }
+        image3.setOnClickListener {
+            Toast.makeText(this, R.string.imageDescription, Toast.LENGTH_SHORT).show()
+        }
+        image4.setOnClickListener {
+            Toast.makeText(this, R.string.imageDescription, Toast.LENGTH_SHORT).show()
+        }
+        image5.setOnClickListener {
+            Toast.makeText(this, R.string.imageDescription, Toast.LENGTH_SHORT).show()
         }
     }
 }

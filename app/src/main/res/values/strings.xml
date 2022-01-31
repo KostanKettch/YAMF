@@ -5,6 +5,11 @@
     <string name="button3">Button3</string>
     <string name="button4">Button4</string>
     <string name="button5">Button5</string>
+    <string name="button1Toast">Something</string>
+    <string name="button2Toast">Something New</string>
+    <string name="button3Toast">Something Else</string>
+    <string name="button4Toast">Something More</string>
+    <string name="button5Toast">And Now for Something Completely Different</string>
     <string name="disclaimer">All images took from https://www.movieposters.com</string>
     <string name="imageDescription">This image took from https://www.movieposters.com</string>
 </resources>

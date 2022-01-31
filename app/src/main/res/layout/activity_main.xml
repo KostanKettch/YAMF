@@ -85,49 +85,49 @@
             android:orientation="horizontal">
 
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/image1"
                 android:layout_width="@dimen/cardview_default_elevation"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
-                android:src="@drawable/arcane"
+                android:background="@drawable/arcane"
                 android:contentDescription="@string/imageDescription" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/image2"
                 android:layout_width="@dimen/cardview_default_elevation"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
-                android:src="@drawable/bladerunner2049"
+                android:background="@drawable/bladerunner2049"
                 android:contentDescription="@string/imageDescription" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/image3"
                 android:layout_width="@dimen/cardview_default_elevation"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
-                android:src="@drawable/swmando"
+                android:background="@drawable/swmando"
                 android:contentDescription="@string/imageDescription" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/image4"
                 android:layout_width="@dimen/cardview_default_elevation"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
-                android:src="@drawable/indy"
+                android:background="@drawable/indy"
                 android:contentDescription="@string/imageDescription" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/image5"
                 android:layout_width="@dimen/cardview_default_elevation"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
-                android:src="@drawable/spiderverse"
+                android:background="@drawable/spiderverse"
                 android:contentDescription="@string/imageDescription"  />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
