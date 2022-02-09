@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/favorites"
+        android:title="@string/menu_favorites_title"
+        android:icon="@drawable/ic_round_star_24"
+        app:showAsAction="withText"/>
+    <item
+        android:id="@+id/watch_later"
+        android:title="@string/menu_watch_later_title"
+        android:icon="@drawable/ic_round_watch_later_24"
+        app:showAsAction="withText"/>
+    <item
+        android:id="@+id/collections"
+        android:title="@string/menu_collections_title"
+        android:icon="@drawable/ic_round_collections_24"
+        app:showAsAction="withText"/>
+
+</menu>
