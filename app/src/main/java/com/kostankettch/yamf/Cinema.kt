@@ -7,5 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class Cinema(
     val title: String,
     val poster: Int,
-    val description: String
+    val description: String,
+    var isFavorite: Boolean = false
+
 ) : Parcelable
