@@ -1,7 +1,6 @@
 package com.kostankettch.yamf
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_details.*
 
 class DetailsFragment : Fragment() {
-    private  lateinit var cinema: Cinema
+    private lateinit var cinema: Cinema
 
 
     override fun onCreateView(
@@ -27,7 +26,7 @@ class DetailsFragment : Fragment() {
         setCinemaDetails()
 
         details_fab_favorites.setOnClickListener {
-            if (false.also { cinema.isFavorite = it }) {
+            if (cinema.isFavorite ) {
                 details_fab_favorites.setImageResource(R.drawable.ic_round_star_24)
                 cinema.isFavorite = true
             } else {
