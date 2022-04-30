@@ -1,14 +1,12 @@
 package com.kostankettch.yamf
 
-
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -71,36 +69,6 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-    }
-
-    private fun imgButtons() {
-        topBar.setOnClickListener {
-            when (it.id) {
-                R.id.image1 -> {
-                    Toast.makeText(this, R.string.imageDescription, Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.image2 -> {
-                    Toast.makeText(this, R.string.imageDescription, Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.image3 -> {
-                    Toast.makeText(this, R.string.imageDescription, Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.image4 -> {
-                    Toast.makeText(this, R.string.imageDescription, Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.image5 -> {
-                    Toast.makeText(this, R.string.imageDescription, Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> false
-            }
-        }
-
-
     }
 
 }

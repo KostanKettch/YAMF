@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.util.*
 
 class HomeFragment : Fragment() {
     private lateinit var moviesAdapter: MovieListRecyclerAdapter
@@ -14,62 +16,74 @@ class HomeFragment : Fragment() {
         Cinema(
             "Arcane: League of Legends",
             R.drawable.arcane,
-            "Set in utopian Piltover and the oppressed underground of Zaun, the story follows the origins of two iconic League champions-and the power that will tear them apart."
+            "Set in utopian Piltover and the oppressed underground of Zaun, the story follows the origins of two iconic League champions-and the power that will tear them apart.",
+            false
         ),
         Cinema(
             "Blade Runner 2049",
             R.drawable.bladerunner2049,
-            "Young Blade Runner K's discovery of a long-buried secret leads him to track down former Blade Runner Rick Deckard, who's been missing for thirty years."
+            "Young Blade Runner K's discovery of a long-buried secret leads him to track down former Blade Runner Rick Deckard, who's been missing for thirty years.",
+            false
         ),
         Cinema(
             "Back to the Future",
             R.drawable.bttf,
-            "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean invented by his close friend, the eccentric scientist Doc Brown."
+            "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean invented by his close friend, the eccentric scientist Doc Brown.",
+            false
         ),
         Cinema(
             "Guardians of the Galaxy Vol. 2",
             R.drawable.guardians2,
-            "The Guardians struggle to keep together as a team while dealing with their personal family issues, notably Star-Lord's encounter with his father the ambitious celestial being Ego."
+            "The Guardians struggle to keep together as a team while dealing with their personal family issues, notably Star-Lord's encounter with his father the ambitious celestial being Ego.",
+            false
         ),
         Cinema(
             "Raiders of the Lost Ark",
             R.drawable.indy,
-            "In 1936, archaeologist and adventurer Indiana Jones is hired by the U.S. government to find the Ark of the Covenant before Adolf Hitler's Nazis can obtain its awesome powers."
+            "In 1936, archaeologist and adventurer Indiana Jones is hired by the U.S. government to find the Ark of the Covenant before Adolf Hitler's Nazis can obtain its awesome powers.",
+            false
         ),
         Cinema(
             "Logan",
             R.drawable.logan,
-            "In a future where mutants are nearly extinct, an elderly and weary Logan leads a quiet life. But when Laura, a mutant child pursued by scientists, comes to him for help, he must get her to safety."
+            "In a future where mutants are nearly extinct, an elderly and weary Logan leads a quiet life. But when Laura, a mutant child pursued by scientists, comes to him for help, he must get her to safety.",
+            false
         ),
         Cinema(
             "Spider-Man: Into the Spider-Verse",
             R.drawable.spiderverse,
-            "Teen Miles Morales becomes the Spider-Man of his universe, and must join with five spider-powered individuals from other dimensions to stop a threat for all realities."
+            "Teen Miles Morales becomes the Spider-Man of his universe, and must join with five spider-powered individuals from other dimensions to stop a threat for all realities.",
+            false
         ),
         Cinema(
             "Stranger Things",
             R.drawable.strangerthings3,
-            "When a young boy disappears, his mother, a police chief and his friends must confront terrifying supernatural forces in order to get him back."
+            "When a young boy disappears, his mother, a police chief and his friends must confront terrifying supernatural forces in order to get him back.",
+            false
         ),
         Cinema(
             "The Empire Strikes Back",
             R.drawable.swesb,
-            "After the Rebels are brutally overpowered by the Empire on the ice planet Hoth, Luke Skywalker begins Jedi training with Yoda, while his friends are pursued across the galaxy by Darth Vader and bounty hunter Boba Fett."
+            "After the Rebels are brutally overpowered by the Empire on the ice planet Hoth, Luke Skywalker begins Jedi training with Yoda, while his friends are pursued across the galaxy by Darth Vader and bounty hunter Boba Fett.",
+            false
         ),
         Cinema(
             "The Mandalorian",
             R.drawable.swmando,
-            "The travels of a lone bounty hunter in the outer reaches of the galaxy, far from the authority of the New Republic."
+            "The travels of a lone bounty hunter in the outer reaches of the galaxy, far from the authority of the New Republic.",
+            false
         ),
         Cinema(
             "Thor: Ragnarok",
             R.drawable.thor3,
-            "Imprisoned on the planet Sakaar, Thor must race against time to return to Asgard and stop Ragnarök, the destruction of his world, at the hands of the powerful and ruthless villain Hela."
+            "Imprisoned on the planet Sakaar, Thor must race against time to return to Asgard and stop Ragnarök, the destruction of his world, at the hands of the powerful and ruthless villain Hela.",
+            false
         ),
         Cinema(
             "WandaVision",
             R.drawable.wandavision,
-            "Blends the style of classic sitcoms with the MCU, in which Wanda Maximoff and Vision - two super-powered beings living their ideal suburban lives - begin to suspect that everything is not as it seems."
+            "Blends the style of classic sitcoms with the MCU, in which Wanda Maximoff and Vision - two super-powered beings living their ideal suburban lives - begin to suspect that everything is not as it seems.",
+            false
         )
     )
 
@@ -83,6 +97,31 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        search_view.setOnClickListener {
+            search_view.isIconified = false
+        }
+
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText : String): Boolean {
+                if(newText.isEmpty()) {
+                    moviesAdapter.addItems(moviesDB)
+                    return true
+                }
+                val result = moviesDB.filter {
+                    it.title.lowercase(Locale.getDefault()).contains(newText.lowercase(Locale.getDefault()))
+                }
+                moviesAdapter.addItems(result)
+                return true
+            }
+
+        })
+
 
         main_recycler.apply {
             moviesAdapter = MovieListRecyclerAdapter(object : MovieListRecyclerAdapter.OnItemClickListener {

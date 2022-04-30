@@ -9,5 +9,4 @@ data class Cinema(
     val poster: Int,
     val description: String,
     var isFavorite: Boolean = false
-
 ) : Parcelable
