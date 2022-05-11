@@ -3,6 +3,7 @@ package com.kostankettch.yamf
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.movie_item.view.*
 
 class MovieViewHolder(private val itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -14,8 +15,10 @@ class MovieViewHolder(private val itemView: View) : RecyclerView.ViewHolder(item
     fun bind(cinema: Cinema) {
         title.text = cinema.title
         description.text = cinema.description
-        poster.setImageResource(cinema.poster)
-
+        Glide.with(itemView)
+            .load(cinema.poster)
+            .centerCrop()
+            .into(poster)
     }
 
 }
