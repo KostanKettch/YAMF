@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_favorites.*
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class FavoritesFragment : Fragment() {
     private lateinit var moviesAdapter: MovieListRecyclerAdapter
@@ -22,6 +21,8 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AnimationHelper.performFragmentCircularRevealAnimation(favorites_fragment_root, requireActivity(), 2)
+
         val favoritesList: List<Cinema> = emptyList()
 
         favorites_recycler.apply {

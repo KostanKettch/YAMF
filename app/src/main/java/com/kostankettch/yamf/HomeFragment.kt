@@ -11,7 +11,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionSet
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.merge_home_screen_content.*
+import kotlinx.android.synthetic.main.merge_home_screen_content.main_recycler
+import kotlinx.android.synthetic.main.merge_home_screen_content.search_view
 import java.util.*
 
 class HomeFragment : Fragment() {
@@ -101,6 +102,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AnimationHelper.performFragmentCircularRevealAnimation(home_fragment_root,requireActivity(), 1)
 
         val scene = Scene.getSceneForLayout(home_fragment_root, R.layout.merge_home_screen_content, requireContext())
         val searchSlide = Slide(Gravity.TOP).addTarget(R.id.search_view)

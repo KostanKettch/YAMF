@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_fragment_root"
+    android:visibility="invisible"
+    tools:visibility="visible"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@drawable/menu_background"
-    android:id="@+id/home_fragment_root"
-    tools:context=".HomeFragment"/>
+    tools:background="@drawable/background_main"
+    tools:context=".HomeFragment">
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_view"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/background_search_view" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/main_recycler"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        tools:listitem="@layout/movie_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
