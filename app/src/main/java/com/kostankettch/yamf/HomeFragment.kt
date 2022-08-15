@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionSet
+import com.kostankettch.yamf.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.merge_home_screen_content.main_recycler
 import kotlinx.android.synthetic.main.merge_home_screen_content.search_view
@@ -17,6 +18,8 @@ import java.util.*
 
 class HomeFragment : Fragment() {
     private lateinit var moviesAdapter: MovieListRecyclerAdapter
+    private lateinit var binding: FragmentHomeBinding
+
     private val moviesDB = listOf(
         Cinema(
             "Arcane: League of Legends",
@@ -104,57 +107,72 @@ class HomeFragment : Fragment() {
         )
     )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnimationHelper.performFragmentCircularRevealAnimation(home_fragment_root,requireActivity(), 1)
+        AnimationHelper.performFragmentCircularRevealAnimation(
+            home_fragment_root,
+            requireActivity(),
+            1
+        )
 
-        val scene = Scene.getSceneForLayout(home_fragment_root, R.layout.merge_home_screen_content, requireContext())
-        val searchSlide = Slide(Gravity.TOP).addTarget(R.id.search_view)
-        val recyclerSlide = Slide(Gravity.BOTTOM).addTarget(R.id.main_recycler)
-        val disclaimerFade = Fade().addTarget(R.id.disclaimer)
-        val customTransition = TransitionSet().apply {
-            duration = 500
-            addTransition(recyclerSlide)
-            addTransition(searchSlide)
-            addTransition(disclaimerFade)
-        }
-        TransitionManager.go(scene, customTransition)
+        AnimationHelper.performFragmentCircularRevealAnimation(
+            home_fragment_root,
+            requireActivity(),
+            1
+        )
 
+        initSearchView()
+
+        initRecycler()
+
+        moviesAdapter.addItems(moviesDB)
+    }
+
+    private fun initSearchView() {
         search_view.setOnClickListener {
             search_view.isIconified = false
         }
 
-        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
 
-            override fun onQueryTextChange(newText : String): Boolean {
-                if(newText.isEmpty()) {
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isEmpty()) {
                     moviesAdapter.addItems(moviesDB)
                     return true
                 }
                 val result = moviesDB.filter {
-                    it.title.lowercase(Locale.getDefault()).contains(newText.lowercase(Locale.getDefault()))
+                    it.title.lowercase(Locale.getDefault())
+                        .contains(newText.lowercase(Locale.getDefault()))
                 }
                 moviesAdapter.addItems(result)
                 return true
             }
 
         })
+    }
 
-
+    private fun initRecycler() {
         main_recycler.apply {
-            moviesAdapter = MovieListRecyclerAdapter(object : MovieListRecyclerAdapter.OnItemClickListener {
+            moviesAdapter =
+                MovieListRecyclerAdapter(object : MovieListRecyclerAdapter.OnItemClickListener {
                     override fun click(cinema: Cinema) {
                         (requireActivity() as MainActivity).launchDetailsFragment(cinema)
                     }
@@ -164,7 +182,7 @@ class HomeFragment : Fragment() {
             val decorator = SpaceDecor(8)
             addItemDecoration(decorator)
         }
-        moviesAdapter.addItems(moviesDB)
+
     }
 
 }
