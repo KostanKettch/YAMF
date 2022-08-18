@@ -1,8 +1,9 @@
-package com.kostankettch.yamf
+package com.kostankettch.yamf.view.customview
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import com.kostankettch.yamf.R
 
 class RatingView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : View(context, attributeSet) {
     //Овал для рисования сегментов прогресс бара

@@ -1,4 +1,4 @@
-package com.kostankettch.yamf
+package com.kostankettch.yamf.domain
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

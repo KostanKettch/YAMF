@@ -1,11 +1,12 @@
-package com.kostankettch.yamf
+package com.kostankettch.yamf.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.kostankettch.yamf.*
 import com.kostankettch.yamf.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.*
+import com.kostankettch.yamf.domain.Cinema
+import com.kostankettch.yamf.view.fragments.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

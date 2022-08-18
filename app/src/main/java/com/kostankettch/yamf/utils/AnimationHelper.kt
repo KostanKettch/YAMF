@@ -1,4 +1,4 @@
-package com.kostankettch.yamf
+package com.kostankettch.yamf.utils
 
 import android.app.Activity
 import android.view.View

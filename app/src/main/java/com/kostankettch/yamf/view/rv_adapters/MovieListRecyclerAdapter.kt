@@ -1,8 +1,11 @@
-package com.kostankettch.yamf
+package com.kostankettch.yamf.view.rv_adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.kostankettch.yamf.R
+import com.kostankettch.yamf.domain.Cinema
+import com.kostankettch.yamf.view.rv_viewholders.MovieViewHolder
 import kotlinx.android.synthetic.main.movie_item.view.*
 
 class MovieListRecyclerAdapter(private val clickListener: OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
