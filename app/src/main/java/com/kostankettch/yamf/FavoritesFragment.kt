@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kostankettch.yamf.databinding.FragmentFavoritesBinding
 import kotlinx.android.synthetic.main.fragment_favorites.*
 
 class FavoritesFragment : Fragment() {
+    private lateinit var binding: FragmentFavoritesBinding
     private lateinit var moviesAdapter: MovieListRecyclerAdapter
 
     override fun onCreateView(
@@ -16,7 +18,8 @@ class FavoritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_favorites, container, false)
+        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -25,7 +28,7 @@ class FavoritesFragment : Fragment() {
 
         val favoritesList: List<Cinema> = emptyList()
 
-        favorites_recycler.apply {
+        binding.favoritesRecycler.apply {
             moviesAdapter = MovieListRecyclerAdapter(object : MovieListRecyclerAdapter.OnItemClickListener {
                     override fun click(cinema: Cinema) {
                         (requireActivity() as MainActivity).launchDetailsFragment(cinema)

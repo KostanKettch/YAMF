@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.kostankettch.yamf.databinding.FragmentDetailsBinding
 import kotlinx.android.synthetic.main.fragment_details.*
 
 class DetailsFragment : Fragment() {
     private lateinit var cinema: Cinema
+    private lateinit var binding: FragmentDetailsBinding
 
 
     override fun onCreateView(
@@ -17,7 +19,8 @@ class DetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_details, container, false)
+         binding= FragmentDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -25,16 +28,16 @@ class DetailsFragment : Fragment() {
 
         setCinemaDetails()
 
-        details_fab_favorites.setOnClickListener {
+        binding.detailsFabFavorites.setOnClickListener {
             if (cinema.isFavorite ) {
-                details_fab_favorites.setImageResource(R.drawable.ic_round_star_24)
+                binding.detailsFabFavorites.setImageResource(R.drawable.ic_round_star_24)
                 cinema.isFavorite = true
             } else {
-                details_fab_favorites.setImageResource(R.drawable.ic_round_star_border_24)
+                binding.detailsFabFavorites.setImageResource(R.drawable.ic_round_star_border_24)
                 cinema.isFavorite = false
             }
         }
-        details_fab_share.setOnClickListener {
+        binding.detailsFabFavorites.setOnClickListener {
             val intent = Intent()
             intent.action = Intent.ACTION_SEND
             intent.putExtra(
@@ -50,11 +53,11 @@ class DetailsFragment : Fragment() {
     private fun setCinemaDetails() {
         val cinema = arguments?.get("cinema") as Cinema
 
-        details_toolbar.title = cinema.title
-        details_description.text = cinema.description
-        details_poster.setImageResource(cinema.poster)
+        binding.detailsToolbar.title = cinema.title
+        binding.detailsDescription.text = cinema.description
+        binding.detailsPoster.setImageResource(cinema.poster)
 
-        details_fab_favorites.setImageResource(
+        binding.detailsFabFavorites.setImageResource(
             if (cinema.isFavorite) R.drawable.ic_round_star_24
             else R.drawable.ic_round_star_border_24
         )
