@@ -1,9 +1,10 @@
-package com.kostankettch.yamf
+package com.kostankettch.yamf.view.rv_viewholders
 
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.kostankettch.yamf.domain.Cinema
 import kotlinx.android.synthetic.main.movie_item.view.*
 
 class MovieViewHolder(private val itemView: View) : RecyclerView.ViewHolder(itemView) {
