@@ -8,9 +8,20 @@ import com.kostankettch.yamf.domain.Interactor
 
 class HomeFragmentViewModel : ViewModel() {
     val moviesListLiveData = MutableLiveData<List<Cinema>>()
-    private  var  interactor: Interactor = App.instance.interactor
+    private var interactor: Interactor = App.instance.interactor
+
     init {
-        val cinema = interactor.getMoviesDB()
-        moviesListLiveData.postValue(cinema)
+        interactor.getMoviesFromApi(1, object : ApiCallback {
+            override fun onSuccess(movies: List<Cinema>) {
+                moviesListLiveData.postValue(movies)
+            }
+
+            override fun onFailure() {
+            }
+        })
+    }
+    interface ApiCallback{
+        fun onSuccess(movies: List<Cinema>)
+        fun onFailure()
     }
 }

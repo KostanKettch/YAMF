@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.kostankettch.yamf.R
+import com.kostankettch.yamf.data.ApiConstants
 import com.kostankettch.yamf.databinding.FragmentDetailsBinding
 import com.kostankettch.yamf.domain.Cinema
 
@@ -19,8 +21,8 @@ class DetailsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-         binding= FragmentDetailsBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -30,7 +32,7 @@ class DetailsFragment : Fragment() {
         setCinemaDetails()
 
         binding.detailsFabFavorites.setOnClickListener {
-            if (cinema.isFavorite ) {
+            if (cinema.isFavorite) {
                 binding.detailsFabFavorites.setImageResource(R.drawable.ic_round_star_24)
                 cinema.isFavorite = true
             } else {
@@ -56,7 +58,10 @@ class DetailsFragment : Fragment() {
 
         binding.detailsToolbar.title = cinema.title
         binding.detailsDescription.text = cinema.description
-        binding.detailsPoster.setImageResource(cinema.poster)
+        Glide.with(this)
+            .load(ApiConstants.IMAGE_URL + "w780" + cinema.poster)
+            .centerCrop()
+            .into(binding.detailsPoster)
 
         binding.detailsFabFavorites.setImageResource(
             if (cinema.isFavorite) R.drawable.ic_round_star_24
