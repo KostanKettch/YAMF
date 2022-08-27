@@ -2,13 +2,17 @@ package com.kostankettch.yamf.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kostankettch.yamf.App
 import com.kostankettch.yamf.domain.Cinema
 import com.kostankettch.yamf.domain.Interactor
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class HomeFragmentViewModel : ViewModel() {
-    val moviesListLiveData = MutableLiveData<List<Cinema>>()
-    private var interactor: Interactor = App.instance.interactor
+class HomeFragmentViewModel : ViewModel() , KoinComponent{
+    val moviesListLiveData: MutableLiveData<List<Cinema>> = MutableLiveData()
+    private val interactor: Interactor by inject()
+
+
+
 
     init {
         interactor.getMoviesFromApi(1, object : ApiCallback {
