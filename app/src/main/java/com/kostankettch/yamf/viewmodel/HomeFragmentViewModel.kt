@@ -2,19 +2,19 @@ package com.kostankettch.yamf.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kostankettch.yamf.App
 import com.kostankettch.yamf.domain.Cinema
 import com.kostankettch.yamf.domain.Interactor
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import javax.inject.Inject
 
-class HomeFragmentViewModel : ViewModel() , KoinComponent{
+class HomeFragmentViewModel : ViewModel(){
     val moviesListLiveData: MutableLiveData<List<Cinema>> = MutableLiveData()
-    private val interactor: Interactor by inject()
 
-
-
+    @Inject
+    lateinit var interactor: Interactor
 
     init {
+        App.instance.dagger.inject(this)
         interactor.getMoviesFromApi(1, object : ApiCallback {
             override fun onSuccess(movies: List<Cinema>) {
                 moviesListLiveData.postValue(movies)
@@ -24,7 +24,8 @@ class HomeFragmentViewModel : ViewModel() , KoinComponent{
             }
         })
     }
-    interface ApiCallback{
+
+    interface ApiCallback {
         fun onSuccess(movies: List<Cinema>)
         fun onFailure()
     }
