@@ -21,5 +21,10 @@
         android:icon="@drawable/ic_round_collections_24"
         android:title="@string/menu_collections_title"
         app:showAsAction="withText" />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/menu_settings_title"
+        app:showAsAction="withText"/>
 
 </menu>

@@ -16,4 +16,10 @@
     <string name="share_to">Share To:</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu_home_title">Home</string>
+    <string name="menu_settings_title_text">Settings</string>
+    <string name="radio_button_popular">Popular</string>
+    <string name="radio_button_top_rated">Top Rated</string>
+    <string name="radio_button_upcoming">Upcoming</string>
+    <string name="radio_button_now_playing">Now Playing</string>
+    <string name="radio_group_header">Main MMenu Collection</string>
 </resources>

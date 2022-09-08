@@ -1,21 +1,21 @@
 package com.kostankettch.yamf.view.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kostankettch.yamf.view.rv_adapters.MovieListRecyclerAdapter
+import com.kostankettch.yamf.domain.Cinema
 import com.kostankettch.yamf.R
 import com.kostankettch.yamf.view.rv_adapters.SpaceDecor
 import com.kostankettch.yamf.databinding.FragmentHomeBinding
-import com.kostankettch.yamf.domain.Cinema
 import com.kostankettch.yamf.utils.AnimationHelper
 import com.kostankettch.yamf.view.MainActivity
+import com.kostankettch.yamf.view.rv_adapters.MovieListRecyclerAdapter
 import com.kostankettch.yamf.viewmodel.HomeFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.merge_home_screen_content.main_recycler
@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -60,12 +60,24 @@ class HomeFragment : Fragment() {
         )
         initSearchView()
 
+        initPullToRefresh()
+
         initRecycler()
 
         viewModel.moviesListLiveData.observe(viewLifecycleOwner, Observer<List<Cinema>> {
             moviesDB = it
+            moviesAdapter.addItems(it)
         })
     }
+
+    private fun initPullToRefresh() {
+        binding.pullToRefresh.setOnRefreshListener {
+            moviesAdapter.items.clear()
+            viewModel.getMovies()
+            binding.pullToRefresh.isRefreshing = false
+        }
+    }
+
 
     private fun initSearchView() {
         search_view.setOnClickListener {
@@ -84,8 +96,8 @@ class HomeFragment : Fragment() {
                     return true
                 }
                 val result = moviesDB.filter {
-                    it.title.lowercase(Locale.getDefault())
-                        .contains(newText.lowercase(Locale.getDefault()))
+                    it.title.toLowerCase(Locale.getDefault())
+                        .contains(newText.toLowerCase(Locale.getDefault()))
                 }
                 moviesAdapter.addItems(result)
                 return true

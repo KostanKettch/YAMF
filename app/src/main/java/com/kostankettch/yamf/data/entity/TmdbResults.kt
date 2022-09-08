@@ -1,4 +1,4 @@
-package com.kostankettch.yamf.data.Entity
+package com.kostankettch.yamf.data.entity
 
 import com.google.gson.annotations.SerializedName
 
