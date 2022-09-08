@@ -1,17 +1,19 @@
 package com.kostankettch.yamf.domain
 
+
 import com.kostankettch.yamf.API
 import com.kostankettch.yamf.data.*
-import com.kostankettch.yamf.data.Entity.TmdbResults
+import com.kostankettch.yamf.data.entity.TmdbResults
 import com.kostankettch.yamf.utils.Converter
 import com.kostankettch.yamf.viewmodel.HomeFragmentViewModel
+import com.kostankettch.yamf.data.preferences.PreferenceProvider
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class Interactor(val repo: MainRepository, private val retrofitService: TmdbApi) {
+class Interactor(private val repo: MainRepository, private val retrofitService: TmdbApi, private val preferences: PreferenceProvider) {
     fun getMoviesFromApi(page: Int, callback: HomeFragmentViewModel.ApiCallback) {
-        retrofitService.getMovies(API.KEY, "ru-RU", page).enqueue(object : Callback<TmdbResults> {
+        retrofitService.getMovies(getDefaultCategoryFromPreferences(), API.KEY, "ru-RU", page).enqueue(object : Callback<TmdbResults> {
             override fun onResponse(call: Call<TmdbResults>, response: Response<TmdbResults>) {
                 callback.onSuccess(Converter.convertApiListToDtoList(response.body()?.tmdbMovies))
             }
@@ -21,4 +23,10 @@ class Interactor(val repo: MainRepository, private val retrofitService: TmdbApi)
             }
         })
     }
+
+    fun saveDefaultCategoryToPreferences(category: String){
+        preferences.saveDefaultCategory(category)
+    }
+
+    fun getDefaultCategoryFromPreferences() = preferences.getDefaultCategory()
 }

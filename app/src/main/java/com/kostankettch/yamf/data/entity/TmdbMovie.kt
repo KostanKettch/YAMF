@@ -1,4 +1,4 @@
-package com.kostankettch.yamf.data.Entity
+package com.kostankettch.yamf.data.entity
 
 import com.google.gson.annotations.SerializedName
 
@@ -30,5 +30,5 @@ data class TmdbMovie(
     @SerializedName("vote_average")
     val voteAverage: Double,
     @SerializedName("vote_count")
-    val voteCount: Int,
+    val voteCount: Int
 )

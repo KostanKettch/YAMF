@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNavigation() {
-        binding.bottomNavigation.setOnItemSelectedListener {
+        binding.bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
                     val tag = "home"
@@ -65,6 +65,12 @@ class MainActivity : AppCompatActivity() {
                     val tag = "collections"
                     val fragment = checkFragmentExistence(tag)
                     changeFragment(fragment ?: CollectionsFragment(), tag)
+                    true
+                }
+                R.id.settings ->{
+                    val tag = "settings"
+                    val fragment = checkFragmentExistence(tag)
+                    changeFragment(fragment ?:SettingsFragment(), tag)
                     true
                 }
                 else -> false

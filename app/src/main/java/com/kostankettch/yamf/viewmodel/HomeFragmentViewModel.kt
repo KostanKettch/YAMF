@@ -7,7 +7,7 @@ import com.kostankettch.yamf.domain.Cinema
 import com.kostankettch.yamf.domain.Interactor
 import javax.inject.Inject
 
-class HomeFragmentViewModel : ViewModel(){
+class HomeFragmentViewModel : ViewModel() {
     val moviesListLiveData: MutableLiveData<List<Cinema>> = MutableLiveData()
 
     @Inject
@@ -15,6 +15,10 @@ class HomeFragmentViewModel : ViewModel(){
 
     init {
         App.instance.dagger.inject(this)
+        getMovies()
+    }
+
+    fun getMovies() {
         interactor.getMoviesFromApi(1, object : ApiCallback {
             override fun onSuccess(movies: List<Cinema>) {
                 moviesListLiveData.postValue(movies)
