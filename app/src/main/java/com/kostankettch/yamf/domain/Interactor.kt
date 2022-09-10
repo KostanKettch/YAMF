@@ -15,7 +15,10 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
     fun getMoviesFromApi(page: Int, callback: HomeFragmentViewModel.ApiCallback) {
         retrofitService.getMovies(getDefaultCategoryFromPreferences(), API.KEY, "ru-RU", page).enqueue(object : Callback<TmdbResults> {
             override fun onResponse(call: Call<TmdbResults>, response: Response<TmdbResults>) {
-                callback.onSuccess(Converter.convertApiListToDtoList(response.body()?.tmdbMovies))
+                val list = Converter.convertApiListToDtoList(response.body()?.tmdbMovies)
+                list.forEach {
+                    repo.putToDb(cinema = it) }
+                callback.onSuccess(list)
             }
 
             override fun onFailure(call: Call<TmdbResults>, t: Throwable) {
@@ -29,4 +32,6 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
     }
 
     fun getDefaultCategoryFromPreferences() = preferences.getDefaultCategory()
+
+    fun getMoviesFromDB(): List<Cinema> = repo.getAllFromDB()
 }
