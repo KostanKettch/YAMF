@@ -1,8 +1,10 @@
 package com.kostankettch.yamf.di.modules
 
 import android.content.Context
-import com.kostankettch.yamf.data.DatabaseHelper
+import androidx.room.Room
 import com.kostankettch.yamf.data.MainRepository
+import com.kostankettch.yamf.data.dao.CinemaDao
+import com.kostankettch.yamf.data.db.AppDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -11,9 +13,14 @@ import javax.inject.Singleton
 class DatabaseModule {
     @Singleton
     @Provides
-    fun provideDatabaseHelper(context: Context) = DatabaseHelper(context)
+    fun provideCinemaDao(context: Context) =
+        Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "cinema_db"
+        ).build().cinemaDao()
 
     @Provides
     @Singleton
-    fun provideRepositories(databaseHelper: DatabaseHelper) = MainRepository(databaseHelper)
+    fun provideRepositories(cinemaDao: CinemaDao) = MainRepository(cinemaDao)
 }

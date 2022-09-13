@@ -3,8 +3,9 @@ package com.kostankettch.yamf.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kostankettch.yamf.App
-import com.kostankettch.yamf.domain.Cinema
+import com.kostankettch.yamf.data.entity.Cinema
 import com.kostankettch.yamf.domain.Interactor
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class HomeFragmentViewModel : ViewModel() {
@@ -25,7 +26,9 @@ class HomeFragmentViewModel : ViewModel() {
             }
 
             override fun onFailure() {
-                moviesListLiveData.postValue(interactor.getMoviesFromDB())
+                Executors.newSingleThreadExecutor().execute {
+                    moviesListLiveData.postValue(interactor.getMoviesFromDb())
+                }
             }
         })
     }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kostankettch.yamf.view.rv_adapters.MovieListRecyclerAdapter
 import com.kostankettch.yamf.view.rv_adapters.SpaceDecor
 import com.kostankettch.yamf.databinding.FragmentFavoritesBinding
-import com.kostankettch.yamf.domain.Cinema
+import com.kostankettch.yamf.data.entity.Cinema
 import com.kostankettch.yamf.utils.AnimationHelper
 import com.kostankettch.yamf.view.MainActivity
 import kotlinx.android.synthetic.main.fragment_favorites.*

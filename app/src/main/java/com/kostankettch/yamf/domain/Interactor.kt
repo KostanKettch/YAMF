@@ -3,6 +3,7 @@ package com.kostankettch.yamf.domain
 
 import com.kostankettch.yamf.API
 import com.kostankettch.yamf.data.*
+import com.kostankettch.yamf.data.entity.Cinema
 import com.kostankettch.yamf.data.entity.TmdbResults
 import com.kostankettch.yamf.utils.Converter
 import com.kostankettch.yamf.viewmodel.HomeFragmentViewModel
@@ -16,8 +17,7 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
         retrofitService.getMovies(getDefaultCategoryFromPreferences(), API.KEY, "ru-RU", page).enqueue(object : Callback<TmdbResults> {
             override fun onResponse(call: Call<TmdbResults>, response: Response<TmdbResults>) {
                 val list = Converter.convertApiListToDtoList(response.body()?.tmdbMovies)
-                list.forEach {
-                    repo.putToDb(cinema = it) }
+                repo.putToDb(list)
                 callback.onSuccess(list)
             }
 
@@ -33,5 +33,5 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
 
     fun getDefaultCategoryFromPreferences() = preferences.getDefaultCategory()
 
-    fun getMoviesFromDB(): List<Cinema> = repo.getAllFromDB()
+    fun getMoviesFromDb(): List<Cinema> = repo.getAllFromDb()
 }

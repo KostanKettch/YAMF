@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.kostankettch.yamf.R
 import com.kostankettch.yamf.data.ApiConstants
 import com.kostankettch.yamf.databinding.FragmentDetailsBinding
-import com.kostankettch.yamf.domain.Cinema
+import com.kostankettch.yamf.data.entity.Cinema
 
 class DetailsFragment : Fragment() {
     private lateinit var cinema: Cinema
