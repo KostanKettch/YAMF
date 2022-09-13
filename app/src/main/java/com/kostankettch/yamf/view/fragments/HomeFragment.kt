@@ -9,8 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kostankettch.yamf.domain.Cinema
-import com.kostankettch.yamf.R
+import com.kostankettch.yamf.data.entity.Cinema
 import com.kostankettch.yamf.view.rv_adapters.SpaceDecor
 import com.kostankettch.yamf.databinding.FragmentHomeBinding
 import com.kostankettch.yamf.utils.AnimationHelper

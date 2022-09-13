@@ -1,6 +1,6 @@
 package com.kostankettch.yamf.utils
 
-import com.kostankettch.yamf.domain.Cinema
+import com.kostankettch.yamf.data.entity.Cinema
 import com.kostankettch.yamf.data.entity.TmdbMovie
 
 object Converter {

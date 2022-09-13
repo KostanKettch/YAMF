@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kostankettch.yamf.data.ApiConstants
-import com.kostankettch.yamf.domain.Cinema
+import com.kostankettch.yamf.data.entity.Cinema
 import kotlinx.android.synthetic.main.movie_item.view.*
 
 class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.kostankettch.yamf.*
 import com.kostankettch.yamf.databinding.ActivityMainBinding
-import com.kostankettch.yamf.domain.Cinema
+import com.kostankettch.yamf.data.entity.Cinema
 import com.kostankettch.yamf.view.fragments.*
 
 class MainActivity : AppCompatActivity() {
