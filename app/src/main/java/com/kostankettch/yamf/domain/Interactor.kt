@@ -1,6 +1,7 @@
 package com.kostankettch.yamf.domain
 
 
+import androidx.lifecycle.LiveData
 import com.kostankettch.yamf.API
 import com.kostankettch.yamf.data.*
 import com.kostankettch.yamf.data.entity.Cinema
@@ -18,7 +19,7 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
             override fun onResponse(call: Call<TmdbResults>, response: Response<TmdbResults>) {
                 val list = Converter.convertApiListToDtoList(response.body()?.tmdbMovies)
                 repo.putToDb(list)
-                callback.onSuccess(list)
+                callback.onSuccess()
             }
 
             override fun onFailure(call: Call<TmdbResults>, t: Throwable) {
@@ -33,5 +34,5 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
 
     fun getDefaultCategoryFromPreferences() = preferences.getDefaultCategory()
 
-    fun getMoviesFromDb(): List<Cinema> = repo.getAllFromDb()
+    fun getMoviesFromDb(): LiveData<List<Cinema>> = repo.getAllFromDb()
 }
