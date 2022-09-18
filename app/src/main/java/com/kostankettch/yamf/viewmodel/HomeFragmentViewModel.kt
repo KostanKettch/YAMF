@@ -1,5 +1,6 @@
 package com.kostankettch.yamf.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kostankettch.yamf.App
@@ -9,32 +10,35 @@ import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class HomeFragmentViewModel : ViewModel() {
-    val moviesListLiveData: MutableLiveData<List<Cinema>> = MutableLiveData()
+val showProgressBar: MutableLiveData<Boolean> = MutableLiveData()
 
     @Inject
     lateinit var interactor: Interactor
+    val moviesListLiveData: LiveData<List<Cinema>>
 
     init {
         App.instance.dagger.inject(this)
+        moviesListLiveData = interactor.getMoviesFromDb()
         getMovies()
     }
 
     fun getMovies() {
+        showProgressBar.postValue(true)
         interactor.getMoviesFromApi(1, object : ApiCallback {
-            override fun onSuccess(movies: List<Cinema>) {
-                moviesListLiveData.postValue(movies)
+            override fun onSuccess() {
+                showProgressBar.postValue(false)
+
             }
 
             override fun onFailure() {
-                Executors.newSingleThreadExecutor().execute {
-                    moviesListLiveData.postValue(interactor.getMoviesFromDb())
-                }
+                showProgressBar.postValue(false)
+
             }
         })
     }
 
     interface ApiCallback {
-        fun onSuccess(movies: List<Cinema>)
+        fun onSuccess()
         fun onFailure()
     }
 }
