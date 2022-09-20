@@ -22,4 +22,7 @@
     <string name="radio_button_upcoming">Upcoming</string>
     <string name="radio_button_now_playing">Now Playing</string>
     <string name="radio_group_header">Main MMenu Collection</string>
+    <string name="permission_storage">Permission not found. Please grant permission</string>
+    <string name="downloaded_to_gallery">Saved to gallery</string>
+    <string name="open">To gallery</string>
 </resources>
