@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kostankettch.yamf.data.entity.Cinema
@@ -19,11 +19,14 @@ import com.kostankettch.yamf.viewmodel.HomeFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.merge_home_screen_content.main_recycler
 import kotlinx.android.synthetic.main.merge_home_screen_content.search_view
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import java.util.*
 
 class HomeFragment : Fragment() {
     private lateinit var moviesAdapter: MovieListRecyclerAdapter
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var scope: CoroutineScope
 
     private val viewModel by lazy {
         ViewModelProvider.NewInstanceFactory().create(HomeFragmentViewModel::class.java)
@@ -63,10 +66,28 @@ class HomeFragment : Fragment() {
 
         initRecycler()
 
-        viewModel.moviesListLiveData.observe(viewLifecycleOwner, Observer<List<Cinema>> {
-            moviesDB = it
-            moviesAdapter.addItems(it)
-        })
+        scope = CoroutineScope(Dispatchers.IO).also { scope ->
+            scope.launch {
+                viewModel.moviesListData.collect {
+                    withContext(Dispatchers.Main) {
+                        moviesDB = it
+                        moviesAdapter.addItems(it)
+                    }
+                }
+            }
+            scope.launch {
+                for (element in viewModel.showProgressBar) {
+                    launch(Dispatchers.Main) {
+                        binding.progressBar.isVisible = element
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        scope.cancel()
     }
 
     private fun initPullToRefresh() {
