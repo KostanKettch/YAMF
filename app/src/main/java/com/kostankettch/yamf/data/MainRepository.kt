@@ -1,18 +1,16 @@
 package com.kostankettch.yamf.data
 
-import androidx.lifecycle.LiveData
 import com.kostankettch.yamf.data.dao.CinemaDao
 import com.kostankettch.yamf.data.entity.Cinema
-import java.util.concurrent.Executors
+import kotlinx.coroutines.flow.Flow
+
 
 class MainRepository(private val cinemaDao: CinemaDao) {
-    fun putToDb(movies: List<Cinema>){
-        Executors.newSingleThreadExecutor().execute {
-            cinemaDao.insertAll(movies)
-        }
+    fun putToDb(movies: List<Cinema>) {
+        cinemaDao.insertAll(movies)
     }
 
-    fun getAllFromDb(): LiveData<List<Cinema>> {
+    fun getAllFromDb(): Flow<List<Cinema>> {
         return cinemaDao.getCachedMovies()
     }
 }
