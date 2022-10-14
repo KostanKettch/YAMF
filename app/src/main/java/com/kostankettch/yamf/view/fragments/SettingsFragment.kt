@@ -11,7 +11,6 @@ import com.kostankettch.yamf.R
 import com.kostankettch.yamf.databinding.FragmentSettingsBinding
 import com.kostankettch.yamf.utils.AnimationHelper
 import com.kostankettch.yamf.viewmodel.SettingsFragmentViewModel
-import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
@@ -31,7 +30,7 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AnimationHelper.performFragmentCircularRevealAnimation(
-            settings_fragment_root,
+            binding.settingsFragmentRoot,
             requireActivity(),
             5
         )

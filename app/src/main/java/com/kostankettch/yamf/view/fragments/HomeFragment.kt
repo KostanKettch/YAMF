@@ -10,23 +10,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kostankettch.yamf.data.entity.Cinema
-import com.kostankettch.yamf.view.rv_adapters.SpaceDecor
 import com.kostankettch.yamf.databinding.FragmentHomeBinding
 import com.kostankettch.yamf.utils.AnimationHelper
+import com.kostankettch.yamf.utils.AutoDisposable
+import com.kostankettch.yamf.utils.addTo
 import com.kostankettch.yamf.view.MainActivity
 import com.kostankettch.yamf.view.rv_adapters.MovieListRecyclerAdapter
+import com.kostankettch.yamf.view.rv_adapters.SpaceDecor
 import com.kostankettch.yamf.viewmodel.HomeFragmentViewModel
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.merge_home_screen_content.main_recycler
-import kotlinx.android.synthetic.main.merge_home_screen_content.search_view
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 
 class HomeFragment : Fragment() {
     private lateinit var moviesAdapter: MovieListRecyclerAdapter
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var scope: CoroutineScope
+    private val autoDisposable = AutoDisposable()
 
     private val viewModel by lazy {
         ViewModelProvider.NewInstanceFactory().create(HomeFragmentViewModel::class.java)
@@ -41,6 +40,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        autoDisposable.bindTo(lifecycle)
         retainInstance = true
     }
 
@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AnimationHelper.performFragmentCircularRevealAnimation(
-            home_fragment_root,
+            binding.homeFragmentRoot,
             requireActivity(),
             1
         )
@@ -66,29 +66,23 @@ class HomeFragment : Fragment() {
 
         initRecycler()
 
-        scope = CoroutineScope(Dispatchers.IO).also { scope ->
-            scope.launch {
-                viewModel.moviesListData.collect {
-                    withContext(Dispatchers.Main) {
-                        moviesDB = it
-                        moviesAdapter.addItems(it)
-                    }
-                }
+        viewModel.moviesListData
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { list ->
+                moviesDB = list
+                moviesAdapter.addItems(list)
             }
-            scope.launch {
-                for (element in viewModel.showProgressBar) {
-                    launch(Dispatchers.Main) {
-                        binding.progressBar.isVisible = element
-                    }
-                }
+            .addTo(autoDisposable)
+        viewModel.showProgressBar
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                binding.progressBar.isVisible = it
             }
-        }
+            .addTo(autoDisposable)
     }
 
-    override fun onStop() {
-        super.onStop()
-        scope.cancel()
-    }
 
     private fun initPullToRefresh() {
         binding.pullToRefresh.setOnRefreshListener {
@@ -100,11 +94,11 @@ class HomeFragment : Fragment() {
 
 
     private fun initSearchView() {
-        search_view.setOnClickListener {
-            search_view.isIconified = false
+        binding.searchView.setOnClickListener {
+            binding.searchView.isIconified = false
         }
 
-        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
@@ -127,7 +121,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initRecycler() {
-        main_recycler.apply {
+        binding.mainRecycler.apply {
             moviesAdapter =
                 MovieListRecyclerAdapter(object : MovieListRecyclerAdapter.OnItemClickListener {
                     override fun click(cinema: Cinema) {
