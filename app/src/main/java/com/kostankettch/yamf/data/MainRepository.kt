@@ -2,7 +2,10 @@ package com.kostankettch.yamf.data
 
 import com.kostankettch.yamf.data.dao.CinemaDao
 import com.kostankettch.yamf.data.entity.Cinema
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.flow.Flow
+
 
 
 class MainRepository(private val cinemaDao: CinemaDao) {
@@ -10,7 +13,7 @@ class MainRepository(private val cinemaDao: CinemaDao) {
         cinemaDao.insertAll(movies)
     }
 
-    fun getAllFromDb(): Flow<List<Cinema>> {
+    fun getAllFromDb(): Observable<List<Cinema>> {
         return cinemaDao.getCachedMovies()
     }
 }

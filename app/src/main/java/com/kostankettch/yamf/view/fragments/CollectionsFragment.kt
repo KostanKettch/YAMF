@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.kostankettch.yamf.databinding.FragmentCollectionsBinding
 import com.kostankettch.yamf.utils.AnimationHelper
-import kotlinx.android.synthetic.main.fragment_collections.*
 
 class CollectionsFragment : Fragment() {
     private lateinit var binding: FragmentCollectionsBinding
@@ -22,6 +21,6 @@ class CollectionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnimationHelper.performFragmentCircularRevealAnimation(collections_fragment_root, requireActivity(), 4)
+        AnimationHelper.performFragmentCircularRevealAnimation(binding.collectionsFragmentRoot, requireActivity(), 4)
     }
 }
