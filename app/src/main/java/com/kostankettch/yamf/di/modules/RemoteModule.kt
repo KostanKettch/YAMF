@@ -5,6 +5,7 @@ import com.kostankettch.yamf.data.ApiConstants
 import com.kostankettch.yamf.data.TmdbApi
 import dagger.Module
 import dagger.Provides
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -31,8 +32,12 @@ class RemoteModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(ApiConstants.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
+
+        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+
         .client(okHttpClient)
         .build()
+
     @Provides
     @Singleton
     fun provideTmdbApi(retrofit: Retrofit): TmdbApi = retrofit.create(TmdbApi::class.java)

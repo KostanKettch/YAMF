@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -18,9 +19,13 @@ import com.kostankettch.yamf.view.MainActivity
 import com.kostankettch.yamf.view.rv_adapters.MovieListRecyclerAdapter
 import com.kostankettch.yamf.view.rv_adapters.SpaceDecor
 import com.kostankettch.yamf.viewmodel.HomeFragmentViewModel
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.ObservableOnSubscribe
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class HomeFragment : Fragment() {
     private lateinit var moviesAdapter: MovieListRecyclerAdapter
@@ -31,12 +36,6 @@ class HomeFragment : Fragment() {
         ViewModelProvider.NewInstanceFactory().create(HomeFragmentViewModel::class.java)
     }
 
-    private var moviesDB = listOf<Cinema>()
-        set(value) {
-            if (field == value) return
-            field = value
-            moviesAdapter.addItems(field)
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +69,6 @@ class HomeFragment : Fragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { list ->
-                moviesDB = list
                 moviesAdapter.addItems(list)
             }
             .addTo(autoDisposable)
@@ -98,26 +96,49 @@ class HomeFragment : Fragment() {
             binding.searchView.isIconified = false
         }
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        Observable.create(ObservableOnSubscribe<String> { subscriber ->
 
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.isEmpty()) {
-                    moviesAdapter.addItems(moviesDB)
-                    return true
+            binding.searchView.setOnQueryTextListener(object :
+                SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String): Boolean {
+                    moviesAdapter.items.clear()
+                    subscriber.onNext(newText)
+                    return false
                 }
-                val result = moviesDB.filter {
-                    it.title.toLowerCase(Locale.getDefault())
-                        .contains(newText.toLowerCase(Locale.getDefault()))
-                }
-                moviesAdapter.addItems(result)
-                return true
-            }
 
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    subscriber.onNext(query)
+                    return false
+                }
+            })
         })
+            .subscribeOn(Schedulers.io())
+            .map {
+                it.toLowerCase(Locale.getDefault()).trim()
+            }
+            .debounce(800, TimeUnit.MILLISECONDS)
+            .filter {
+                viewModel.getMovies()
+                it.isNotBlank()
+            }
+            .flatMap {
+                viewModel.getSearchResult(it)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onError = {
+                    Toast.makeText(
+                        requireContext(),
+                        "Something wicked this way coming",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                onNext = {
+                    moviesAdapter.addItems(it)
+                }
+            )
+            .addTo(autoDisposable)
     }
 
     private fun initRecycler() {
